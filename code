@@ -1,0 +1,19 @@
+# Install the alpha_vantage library: pip install alpha_vantage
+from alpha_vantage.timeseries import TimeSeries
+import pandas as pd
+
+# Alpha Vantage API Key (Sign up at https://www.alphavantage.co to get a free key)
+API_KEY = 'YOUR_ALPHA_VANTAGE_API_KEY'
+
+# Fetch stock data function
+def fetch_stock_data(symbol):
+    ts = TimeSeries(key=API_KEY, output_format='pandas')
+    data, meta_data = ts.get_intraday(symbol=symbol, interval='1min', outputsize='compact')
+    return data
+
+# Main execution
+if __name__ == "__main__":
+    stock_symbol = "AAPL"  # Replace with any stock symbol
+    stock_data = fetch_stock_data(stock_symbol)
+    print(stock_data.head())  # Show the first few rows of the data
+    stock_data.to_csv(f"{stock_symbol}_intraday.csv")  # Save data to a CSV file
